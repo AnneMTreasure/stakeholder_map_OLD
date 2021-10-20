@@ -5,7 +5,7 @@ name: run_r_script_kumu_test
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '0 13 * * *'
+    - cron: '52 14 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -26,7 +26,7 @@ jobs:
           Rscript -e "install.packages(c('tidyverse', 'googlesheets4'))"
       - name: step-2-run-script
         run: 
-          Rscript -e "source('stakeholder_map/convert_to_kumu')"
+          Rscript -e "source('scripts/convert_to_kumu')"
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
