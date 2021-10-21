@@ -33,6 +33,6 @@ jobs:
           git commit -m 'update Kumu vis' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
         env:
-          REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+          REPO_KEY: ${{secrets.SERVICE_ACCOUNT_TOKEN}}
           username: SERVICE_ACCOUNT_TOKEN
           
