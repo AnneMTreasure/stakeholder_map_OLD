@@ -34,5 +34,5 @@ jobs:
           git push origin || echo "No changes to commit"
         env:
           REPO_KEY: ${{secrets.SERVICE_ACCOUNT_TOKEN}}
-          username: SERVICE_ACCOUNT_TOKEN
+          username: github-actions
           
