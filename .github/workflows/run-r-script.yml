@@ -1,9 +1,9 @@
 name: run_r_script_kumu_test
 
 # Controls when the workflow will run
-#on:
-#  schedule:
-#    - cron: '55 12 * * *'
+on:
+  schedule:
+    - cron: '55 12 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -26,8 +26,7 @@ jobs:
         run: 
           Rscript -e "source('scripts/convert_to_kumu')"
         env:
-          REPO_KEY: ${{ secrets.SERVICE_ACCOUNT_TOKEN }}
-          username: github-actions
+          MY_GOOGLE_PASS: ${{ secrets.MY_GOOGLE_PASSWORD }}
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
