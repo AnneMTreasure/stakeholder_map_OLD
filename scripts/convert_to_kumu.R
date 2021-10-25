@@ -11,7 +11,7 @@ library(googlesheets4)
 #drive_auth(email = "*@example.com")
 #gs4_auth(token = drive_token())
 
-gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/sheets_service_account_key.json")
+gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/.secret/MY_GOOGLE")
 
 # full form
 form_data <- read_sheet("https://docs.google.com/spreadsheets/d/1QypMe5AMMRqC99xErDrLNg_MNFh8GgJgvgk1GgTgqvc/edit?resourcekey#gid=1544501697")
