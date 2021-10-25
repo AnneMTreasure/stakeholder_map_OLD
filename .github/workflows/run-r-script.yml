@@ -1,9 +1,9 @@
 name: run_r_script_kumu_test
 
 # Controls when the workflow will run
-on:
-  schedule:
-    - cron: '55 12 * * *'
+#on:
+#  schedule:
+#    - cron: '55 12 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
