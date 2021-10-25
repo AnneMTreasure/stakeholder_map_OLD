@@ -3,7 +3,7 @@ name: run_r_script_kumu_test
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '41 10 * * *'
+    - cron: '16 11 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -24,7 +24,7 @@ jobs:
           Rscript -e "install.packages(c('tidyverse', 'googlesheets4'))"
       - name: step-2-run-script
         run: 
-          Rscript -e "source('scripts/convert_to_kumu')"
+          Rscript -e "source('scripts/convert_to_kumu.R')"
         env:
           MY_GOOGLE_PASS: ${{ secrets.MY_GOOGLE_PASSWORD }}
       - name: Commit results
