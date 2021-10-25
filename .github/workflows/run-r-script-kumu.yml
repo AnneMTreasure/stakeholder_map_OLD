@@ -3,7 +3,7 @@ name: run_r_script_kumu_test
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '31 11 * * *'
+    - cron: '04 12 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -20,8 +20,9 @@ jobs:
       # set up Pandoc
       - uses: r-lib/actions/setup-pandoc@v1
       - name: step-1-install-packages
-        run: 
-          Rscript -e "install.packages(c('tidyverse', 'googlesheets4'))"
+        run: |
+          install.packages('tidyverse')
+          install.packages('googlesheets4')
       - name: step-2-run-script
         run: 
           Rscript -e "source('scripts/convert_to_kumu.R')"
