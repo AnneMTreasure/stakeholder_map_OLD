@@ -3,13 +3,16 @@ name: run_r_script_kumu_test
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '08 18 * * *'
+    - cron: '22 04 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
     runs-on: macos-latest
+    
+    env:
+      MY_GOOGLE_PASS: ${{ secrets.MY_GOOGLE_PASSWORD }}
     
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -37,8 +40,6 @@ jobs:
       - name: step-2-run-script
         run: 
           Rscript -e "source('scripts/convert_to_kumu.R')"
-        env:
-          MY_GOOGLE_PASS: ${{ secrets.MY_GOOGLE_PASSWORD }}
           
       - name: Commit results
         run: |
