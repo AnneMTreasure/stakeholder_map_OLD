@@ -11,6 +11,7 @@ tokencodr::create_env_pw("MY_GOOGLE")
 
 # Assumes the JSON file is a Google Service Account as described here:
 # https://gargle.r-lib.org/articles/get-api-credentials.html#service-account-token
+# the encrypted json file saved in .secrets folder in GitHub repo
 tokencodr::encrypt_token(service = "MY_GOOGLE", # "stakeholder_map"
                          input = "sheets_service_account_key.json", 
                          destination = "path-to-save-encrypted-json-file")
