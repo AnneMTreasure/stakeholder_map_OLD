@@ -14,4 +14,4 @@ auth_google <- function(service, token_path) {
 #  googledrive::drive_auth(path = tokencodr::decrypt_token(service = service,
 #                                                          path = token_path,
 #                                                          complete = TRUE))
-#}
+}
