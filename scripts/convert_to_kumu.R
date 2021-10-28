@@ -5,11 +5,10 @@ library(tidyverse)
 library(googlesheets4)
 
 ###### authorisations
-#drive_auth(email = "*@example.com")
-#gs4_auth(token = drive_token())
-
+# this works locally
 #gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/.secret/MY_GOOGLE")
 
+# for GitHub Action
 source("R/func_auth_google.R")
 
 # Authenticate Google Service Account
@@ -17,8 +16,7 @@ auth_google(email = "*@talarify.co.za",
             service = "MY_GOOGLE",
             token_path = ".secret/MY_GOOGLE")
 
-
-# full form
+# Read in Google Sheet data
 form_data <- read_sheet("https://docs.google.com/spreadsheets/d/1QypMe5AMMRqC99xErDrLNg_MNFh8GgJgvgk1GgTgqvc/edit?resourcekey#gid=1544501697")
 
 ###### project
@@ -60,5 +58,4 @@ kumu_gsheet <- sheet_write(kumu, ss = ss, sheet = "kumu")
 
 #kumu_gsheet
 # copied the ID given and added to 'https://docs.google.com/spreadsheets/d/'
-
-# how to extract the gsheet ID?
+# to look into how to extract the gsheet ID
