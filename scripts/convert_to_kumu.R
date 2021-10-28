@@ -1,9 +1,6 @@
 
-# stakeholder map project
+# stakeholder map project: script to convert Google spreadsheet (linked to Google Form) to a Kumu ready spreadsheet
 
-# script to convert Google spreadsheet (linked to Google Form) to a Kumu ready spreadsheet
-
-#install.packages("googlesheets4")
 library(tidyverse)
 library(googlesheets4)
 
@@ -11,7 +8,14 @@ library(googlesheets4)
 #drive_auth(email = "*@example.com")
 #gs4_auth(token = drive_token())
 
-gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/.secret/MY_GOOGLE")
+#gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/.secret/MY_GOOGLE")
+
+source("R/func_auth_google.R")
+
+# Authenticate Google Service Account
+auth_google(service = "MY_GOOGLE",
+            token_path = ".secret/MY_GOOGLE")
+
 
 # full form
 form_data <- read_sheet("https://docs.google.com/spreadsheets/d/1QypMe5AMMRqC99xErDrLNg_MNFh8GgJgvgk1GgTgqvc/edit?resourcekey#gid=1544501697")
