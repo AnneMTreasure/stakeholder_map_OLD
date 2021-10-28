@@ -13,7 +13,8 @@ library(googlesheets4)
 source("R/func_auth_google.R")
 
 # Authenticate Google Service Account
-auth_google(service = "MY_GOOGLE",
+auth_google(email = "*@talarify.co.za",
+            service = "MY_GOOGLE",
             token_path = ".secret/MY_GOOGLE")
 
 
