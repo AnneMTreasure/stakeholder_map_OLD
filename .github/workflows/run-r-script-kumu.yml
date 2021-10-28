@@ -3,7 +3,7 @@ name: run_r_script_kumu_test
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '28 18 * * *'
+    - cron: '28 19 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -12,6 +12,7 @@ jobs:
     runs-on: macos-latest
     
     env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       MY_GOOGLE_PASSWORD: ${{ secrets.MY_GOOGLE_PASSWORD }}
     
     # Steps represent a sequence of tasks that will be executed as part of the job
