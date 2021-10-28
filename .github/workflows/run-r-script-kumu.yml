@@ -3,7 +3,7 @@ name: run_r_script_kumu_test
 # Controls when the workflow will run
 on:
   schedule:
-    - cron: '17 11 * * *'
+    - cron: '28 18 * * *'
 
 jobs:
   # This workflow contains a single job called "build"
@@ -33,6 +33,7 @@ jobs:
           install.packages('tidyverse')
           install.packages('googlesheets4')
           install.packages('remotes')
+          remotes::install_github("jdtrat/tokencodr")
         #  saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         #  writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
