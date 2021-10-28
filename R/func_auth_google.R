@@ -5,8 +5,8 @@
 #'
 #' @return NA; used to authenticate Google Credentials
 #'
-auth_google <- function(service, token_path) {
-  googlesheets4::gs4_auth(path = tokencodr::decrypt_token(service = service,
+auth_google <- function(email, service, token_path) {
+  googlesheets4::gs4_auth(email = "*@talarify.co.za", path = tokencodr::decrypt_token(service = service,
                                                           path = token_path,
                                                           complete = TRUE))
   
