@@ -43,9 +43,9 @@ jobs:
         run: 
           Rscript -e "source('scripts/convert_to_kumu.R')"
           
-      - name: Commit results
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git commit -m 'update Kumu vis' || echo "No changes to commit"
-          git push origin || echo "No changes to commit"
+ #     - name: Commit results
+ #       run: |
+ #         git config --local user.email "actions@github.com"
+ #         git config --local user.name "GitHub Actions"
+ #         git commit -m 'update Kumu vis' || echo "No changes to commit"
+ #         git push origin || echo "No changes to commit"
