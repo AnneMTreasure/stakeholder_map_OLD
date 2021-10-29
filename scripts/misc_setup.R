@@ -1,4 +1,5 @@
 # adapted from https://github.com/jdtrat/tokencodr-google-demo
+# also see https://tokencodr.jdtrat.com/articles/tokencodr.html
 
 # remotes::install_github("jdtrat/tokencodr")
 library(tokencodr)
