@@ -8,7 +8,7 @@ library(googlesheets4)
 # this works locally
 #gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/.secret/MY_GOOGLE")
 
-# for GitHub Action
+# for GitHub Action (adapted from https://github.com/jdtrat/tokencodr-google-demo)
 source("R/func_auth_google.R")
 
 # Authenticate Google Service Account (adapted from https://github.com/jdtrat/tokencodr-google-demo)
