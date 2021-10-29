@@ -11,7 +11,7 @@ library(googlesheets4)
 # for GitHub Action
 source("R/func_auth_google.R")
 
-# Authenticate Google Service Account
+# Authenticate Google Service Account (adapted from https://github.com/jdtrat/tokencodr-google-demo)
 auth_google(email = "*@talarify.co.za",
             service = "MY_GOOGLE",
             token_path = ".secret/MY_GOOGLE")
