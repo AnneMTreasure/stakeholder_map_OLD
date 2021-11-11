@@ -5,7 +5,7 @@
 library(tidyverse)
 library(googlesheets4)
 
-## ---------- AUTHORISATIONS ---------- ##
+###### ---------- AUTHORISATIONS ---------- ######
   # this works locally
   #gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/.secret/MY_GOOGLE")
 
@@ -18,17 +18,17 @@ auth_google(email = "*@talarify.co.za",
             token_path = ".secret/MY_GOOGLE")
 
 
-## ---------- READ DATA FROM GOOGLE SHEET ---------- ##
+###### ---------- READ DATA FROM GOOGLE SHEET ---------- ######
 form_data <-
   read_sheet(
     "https://docs.google.com/spreadsheets/d/1_LF0MQM1j240Z-S1eemmt6pcpWoGpeidFFIm73bqhhQ/edit?resourcekey#gid=957668315"
   )
 
-## ---------- INTRO questions ---------- ##
+###### ---------- INTRO questions ---------- ######
 #intro <- form_data %>%
 #  select(starts_with('1.'))
 
-## ---------- Record type: PROJECT ---------- ##
+###### ---------- Record type: PROJECT ---------- ######
 project <- form_data %>%
   filter(`1.5_Record type` == "Project") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "2")))) %>%
@@ -72,7 +72,7 @@ names(project) <-
     "project_outputs"
   )
 
-## ---------- Record type: PERSON ---------- ##
+###### ---------- Record type: PERSON ---------- ######
 person <- form_data %>%
   filter(`1.5_Record type` == "Person") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "3")))) %>%
@@ -110,7 +110,7 @@ names(person) <-
     "other_social_media"
   )
 
-## ---------- Record type: DATASET ---------- ##
+###### ---------- Record type: DATASET ---------- ######
 dataset <- form_data %>%
   filter(`1.5_Record type` == "Dataset") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "4")))) %>%
@@ -150,7 +150,7 @@ names(dataset) <-
     "dataset_format"
   )
 
-## ---------- Record type: TOOL ---------- ##
+###### ---------- Record type: TOOL ---------- ######
 tool <- form_data %>%
   filter(`1.5_Record type` == "Tool") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "5")))) %>%
@@ -197,7 +197,7 @@ names(tool) <-
     "URL"
   )
 
-## ---------- Record type: PUBLICATION ---------- ## 6
+###### ---------- Record type: PUBLICATION ---------- ######
 publication <- form_data %>%
   filter(`1.5_Record type` == "Publication") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "6")))) %>%
@@ -236,7 +236,7 @@ names(publication) <-
     "zotero_library"
   )
 
-## ---------- Record type: TRAINING ---------- ##
+###### ---------- Record type: TRAINING ---------- ######
 training <- form_data %>%
   filter(`1.5_Record type` == "Training") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "7", "8", "9")))) %>%
@@ -281,7 +281,7 @@ names(training) <-
     "online_city"
   )
 
-## ---------- Record type: ARCHIVES ---------- ##
+###### ---------- Record type: ARCHIVES ---------- ######
 archives <- form_data %>%
   filter(`1.5_Record type` == "Archives") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "10")))) %>%
@@ -315,7 +315,7 @@ names(archives) <-
     "licence"
   )
 
-## ---------- Record type: LEARNING MATERIAL ---------- ##
+###### ---------- Record type: LEARNING MATERIAL ---------- ######
 learning_material <- form_data %>%
   filter(`1.5_Record type` == "Learning material") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "11")))) %>%
@@ -357,7 +357,7 @@ names(learning_material) <-
     "licence"
   )
 
-## ---------- Record type: UNCLASSIFIED ---------- ##
+###### ---------- Record type: UNCLASSIFIED ---------- ######
 unclassified <- form_data %>%
   filter(`1.5_Record type` == "Unclassified") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "12")))) %>%
@@ -389,7 +389,7 @@ names(unclassified) <-
   )
 
 
-## ---------- DATA SHEET FOR KUMU: project, person, tool, learning materials ---------- ## 
+###### ---------- DATA SHEET FOR KUMU: project, person, tool, learning materials ---------- ## 
 ### columns possibly still needed for kumu: "Image", ID"
 
 kumu_project <- project %>%
@@ -409,13 +409,12 @@ kumu_training_online <- training %>%
   select(Label, Type, Description, Tags, online_organisor, URL, Email, Funders)
 names(kumu_training_inperson) <- c("Label", "Type", "Description", "Tags", "Organisation", "URL", "Email", "Funders")
 
-
-# combine
+##### combine ##### 
 kumu <- rbind(kumu_person, kumu_project,kumu_training_inperson, kumu_training_online)
 # replace commas with |
 kumu$Tags <- gsub("[[:punct:]]", " | ", kumu$Tags)
 
-##### write to google spreadsheet
+##### write to google spreadsheet ##### 
 ss = "https://docs.google.com/spreadsheets/d/1jrToaqsIvv4DzlDGox9DEmsAgIsicymxQE8femfuhEk/edit#gid=369134759"
 
 kumu_gsheet <- sheet_write(kumu, ss = ss, sheet = "kumu")
@@ -424,10 +423,11 @@ kumu_gsheet <- sheet_write(kumu, ss = ss, sheet = "kumu")
 # copied the ID given and added to 'https://docs.google.com/spreadsheets/d/'
 # to look into how to extract the gsheet ID
 
-## ---------- DATA SHEETS FOR Shiny ---------- ## 
+
+###### ---------- DATA SHEETS FOR Shiny ---------- ######
 sheet_write(project, ss = ss, sheet = "project")
 sheet_write(person, ss = ss, sheet = "person")
-sheet_write(dataset, ss = ss, sheet = "person")
+sheet_write(dataset, ss = ss, sheet = "dataset")
 sheet_write(tool, ss = ss, sheet = "tool")
 sheet_write(publication, ss = ss, sheet = "publication")
 sheet_write(training, ss = ss, sheet = "training")
