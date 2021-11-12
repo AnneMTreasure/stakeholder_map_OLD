@@ -48,10 +48,9 @@ project_map <- leaflet(project_data) %>%
                    lat = ~lat)
 project_map
 
-# TO DO:
-# - combine record types for map to draw from one df
 
-
-
+# ----- functions -----
+source('functions/importStakeholderData.R')
+#source('functions/my_map.R')
 
 

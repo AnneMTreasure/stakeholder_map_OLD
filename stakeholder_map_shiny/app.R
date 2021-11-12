@@ -18,28 +18,34 @@ options(shiny.usecairo=T)
 
 # ----- authorisations -----
 # for GitHub Action (adapted from https://github.com/jdtrat/tokencodr-google-demo)
-source("R/func_auth_google.R")
+#source("R/func_auth_google.R")
 
 # Authenticate Google Service Account (adapted from https://github.com/jdtrat/tokencodr-google-demo)
-auth_google(email = "*@talarify.co.za",
-            service = "MY_GOOGLE",
-            token_path = ".secret/MY_GOOGLE")
+#auth_google(email = "*@talarify.co.za",
+#            service = "MY_GOOGLE",
+#            token_path = ".secret/MY_GOOGLE")
 
 # ----- load data -----
 # Read in Google Sheet data
-ss = "https://docs.google.com/spreadsheets/d/1jrToaqsIvv4DzlDGox9DEmsAgIsicymxQE8femfuhEk/edit#gid=369134759"
+#ss = "https://docs.google.com/spreadsheets/d/1jrToaqsIvv4DzlDGox9DEmsAgIsicymxQE8femfuhEk/edit#gid=369134759"
 
-project <- read_sheet(ss = ss, sheet = "project")
-person <- read_sheet(ss = ss, sheet = "person")
-dataset <- read_sheet(ss = ss, sheet = "dataset")
-tool <- read_sheet(ss = ss, sheet = "tool")
-publication <- read_sheet(ss = ss, sheet = "training")
-archives <- read_sheet(ss = ss, sheet = "archives")
-learning_material <- read_sheet(ss = ss, sheet = "learning_material")
-unclassified <- read_sheet(ss = ss, sheet = "unclassified")
+#project <- read_sheet(ss = ss, sheet = "project")
+#person <- read_sheet(ss = ss, sheet = "person")
+#dataset <- read_sheet(ss = ss, sheet = "dataset")
+#tool <- read_sheet(ss = ss, sheet = "tool")
+#publication <- read_sheet(ss = ss, sheet = "training")
+#archives <- read_sheet(ss = ss, sheet = "archives")
+#learning_material <- read_sheet(ss = ss, sheet = "learning_material")
+#unclassified <- read_sheet(ss = ss, sheet = "unclassified")
+
+
+# ----- load functions -----
+source('functions/importStakeholderData.R')
+source('functions/my_map_activ.R')
+
 
 # choices for activities map
-variables_actm <- c('Person', 'Project', 'Tool', 'Training')
+variables_actm <- c('person', 'project', 'tool', 'training')
 
 #### ----- Define UI for application that draws plot -----
 ui <- fluidPage(
@@ -48,13 +54,13 @@ ui <- fluidPage(
     tabsetPanel(
 # ----- input for first panel -----
         tabPanel('Activities Map',
-                 # Sidebar with a dropdown menu to choose which variable to plot
+                 # Sidebar with a drop down menu to choose which variable to plot
                  sidebarLayout(
                      sidebarPanel(
-                         selectInput(inputId = 'variable_act', ### !! TO EDIT !! ###
+                         selectInput(inputId = 'record_type',
                                      label = 'Choose which record type to plot', 
                                      choices = variables_actm,
-                                     selected = 'Type of record'
+                                    # selected = 'Type of record'
                          ), # end selectInput
                          
                      ), # end sidebarPanel
@@ -66,7 +72,7 @@ ui <- fluidPage(
                          p("if we want text here"),
                          
                          # add the map
-                         leaflet::leafletOutput(outputId = "my_map_activities",  ### !! TO EDIT !! ###
+                         leaflet::leafletOutput(outputId = "my_map_activities",
                                                 height = "65vh")  # use height argument to adjust size of map in app
                      ) # end mainPanel
                  ) # end sidebarLayout
@@ -116,26 +122,43 @@ tabPanel('heading for tab',
 server <- function(input, output) {
 
 # ----- define original view for maps ---
-    view_orig <- list(long = 24.774610, lat = -29.038968, zoom = 5)
+#    view_orig <- list(long = 24.774610, lat = -29.038968, zoom = 5)
     
 # ----- output for first panel (activities map) -----
     output$my_map_activities <- leaflet::renderLeaflet({
-        # filter the data according to input$filter
-        if(input$var_filter1 == 'Quarter'){
-            activ_choice <- activ %>%
-                filter(quarter %in% input$quarter1)
-        }else if(input$var_filter1 == 'Type of Activity'){
-            activ_choice <- activ %>% 
-                filter(activity_type %in% input$activity1)
-        } #end if else
+
+        # data
+#        data <- importStakeholderData(input$record_type)
+        
+        if (input$record_type == "project") {
+            stakeholderData <- project_data
+        } else if (input$record_type == "person") {
+            stakeholderData <- person_data    ### STILL TO ADD OTHER RECORD TYPES
+        } else {
+            stakeholderData <- 0
+           # print("Incorrect entry")
+        }
+
+        project_map <- leaflet(stakeholderData) %>%
+            addTiles() %>% 
+            setView(24.774610, -29.038968, zoom = 5) %>%
+            addCircleMarkers(lng = ~long,
+                             lat = ~lat)
+        
+        project_map
+        
+        
+        # draw the map
+#        my_map_activ(stakeholderData #,
+                     #mapping_var = choice(input$record_type)
+        
         # draw the map,
         # (input$variable corresponds to the category chosen in the drop-down menu)
-        my_map_activ(x = activ_choice, 
-                     affil = affil, 
-                     mapping_var = choice(input$variable_act), 
-                     view = view_orig, 
-                     legend_title = input$variable_act
-        )
+#        my_map_activ(x = importStakeholderData(input$record_type),
+#                     mapping_var = choice(input$record_type), 
+#                     view = view_orig, 
+#                     legend_title = input$record_type
+        #)
     }) # end my_map
     
     
