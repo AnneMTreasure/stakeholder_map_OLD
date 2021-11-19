@@ -8,3 +8,5 @@ SODP
 https://github.com/surveying-open-data-practices/Data-analysis/blob/main/SODPshinyApp/app.R
 https://sodp2020.shinyapps.io/SODP-DataVisualisation/
 
+Getting the leaflet map to render
+https://stackoverflow.com/questions/54782156/selectinput-and-leaflet-not-connecting

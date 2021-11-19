@@ -38,14 +38,19 @@ ss = "https://docs.google.com/spreadsheets/d/1jrToaqsIvv4DzlDGox9DEmsAgIsicymxQE
 
 project <- read_sheet(ss = ss, sheet = "project")
 person <- read_sheet(ss = ss, sheet = "person")
+tool <- read_sheet(ss = ss, sheet = "tool")
+#training <- read_sheet(ss = ss, sheet = "training")
 
 project_data <- locations %>%
     merge(project, by = 'Organisation')
 person_data <- locations %>%
     merge(person, by = 'Organisation')
+tool_data <- locations %>%
+    merge(tool, by = 'Organisation')
+#training_data <- locations %>%
+#    merge(training, by = 'Organisation')
 
 #dataset <- read_sheet(ss = ss, sheet = "dataset")
-#tool <- read_sheet(ss = ss, sheet = "tool")
 #publication <- read_sheet(ss = ss, sheet = "training")
 #archives <- read_sheet(ss = ss, sheet = "archives")
 #learning_material <- read_sheet(ss = ss, sheet = "learning_material")
@@ -56,43 +61,99 @@ person_data <- locations %>%
 #source('functions/my_map_activ.R')
 
 # choices for activities map
-chocies_record_type <- c('person', 'project', 'tool', 'training')
+choices_record_type <- c('person', 'project', 'tool', 'training')
+
 
 #### ----- Define UI for application that draws plot -----
 ui <- (fluidPage(
+    # Application title
     titlePanel(title = "DH and CSS stakeholder landscape in South Africa"),
-    sidebarLayout(
-        sidebarPanel(uiOutput("Type")
-        ),
-        mainPanel(leafletOutput("my_map_activities", height = "500")
-        ))
+    tabsetPanel(
+# ----- input for first panel -----
+        tabPanel('Activities Map',
+                 # Sidebar with a drop down menu to choose which variable to plot
+                 sidebarLayout(
+                     sidebarPanel(uiOutput("Type")
+                     ), # end sidebarPanel
+                    mainPanel(leafletOutput("my_map_activities", height = "500")#,
+                         # add some text on top of main part
+                        # h4('Add some text here'),
+                        # p("if we want text here"),
+                        # p("if we want text here"),
+                     ) # end mainPanel
+                 ) # end sidebarLayout
+        ), # end tabPanel
+
+# ----- input for second panel -----
+tabPanel('heading for tab',
+         sidebarLayout(
+             sidebarPanel(
+                 p("if we want text here"),
+                 p("if we want text here")
+                 
+             ), # end sidebarPanel
+             mainPanel(
+                 h4('title here'),
+                 plotOutput(outputId = "LangPlot"),
+                 #downloadButton('down', 'Download plot'),
+                 p(" "),
+                 p("if we want text here."),
+                 p("if we want text here")
+             ) # end mainPanel
+         ) # end sidebarLayout
+), # end tabPanel
+# ----- input for third panel -----
+tabPanel('heading for tab',
+         sidebarLayout(
+             sidebarPanel(
+                 p("if we want text here"),
+                 p("if we want text here")
+                 
+             ), # end sidebarPanel
+             mainPanel(
+                 h4('title here'),
+                 plotOutput(outputId = "LangPlot"),
+                 #downloadButton('down', 'Download plot'),
+                 p(" "),
+                 p("if we want text here."),
+                 p("if we want text here")
+             ) # end mainPanel
+         ) # end sidebarLayout
+), # end tabPanel    
+    ) # end tabsetPanel   
+) # end fluidpage
 )
-)
+
 
 # Define server logic required to draw a the leaflet map, other plots, and show tables
 server <- function(input, output){
-    output$Type <- renderUI({
-        selectInput(inputId = "Type", label = "Choose which record type to view",
-                    choices = chocies_record_type)
-    })
-     map_data <- reactive({
-      if (input$Type == "project") {
-             data <- project_data
-         } else if (input$Type == "person") {
-             data <- person_data    
-         } else {
-             data <- 0            
-         }
-         return(data)
-    })
-    output$my_map_activities <- renderLeaflet({
-        leaflet(data = map_data()) %>%
-            addTiles() %>% 
-            setView(24.774610, -29.038968, zoom = 5) %>%
-            addCircleMarkers(lng = ~long,
-                             lat = ~lat)
-    })
+
+# ----- define original view for maps ---
+#    view_orig <- list(long = 24.774610, lat = -29.038968, zoom = 5)
+    
+# ----- output for first panel (activities map) -----
+        output$Type <- renderUI({
+            selectInput(inputId = "Type", label = "Choose which record type to view",
+                        choices = choices_record_type)
+        })
+        map_data <- reactive({
+            if (input$Type == "project") {
+                data <- project_data
+            } else if (input$Type == "person") {
+                data <- person_data    
+            } else {
+                data <- 0            
+            }
+            return(data)
+        })
+        output$my_map_activities <- renderLeaflet({
+            leaflet(data = map_data()) %>%
+                addTiles() %>% 
+                setView(24.774610, -29.038968, zoom = 5) %>%
+                addCircleMarkers(lng = ~long,
+                                 lat = ~lat)
+        })
 }
 
-# Run the application
-shinyApp(ui, server)
+# Run the application 
+shinyApp(ui = ui, server = server)

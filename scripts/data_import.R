@@ -213,7 +213,7 @@ names(publication) <-
     "subject_area",
     "methods",
     "Type",
-    "pulication_type",
+    "publication_type",
     "language_primary",
     "language_other",
     "title",
