@@ -1,0 +1,26 @@
+---
+title: "Using GitHub Actions to automate data visualisations"
+subtitle: ""
+author: "Anne Treasure"
+institute: "Talarify"
+date: "2021/12/21 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    self_contained: true
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+class: center, middle
+
+# title
+
+### subtitle
+
+---
+
+
+
