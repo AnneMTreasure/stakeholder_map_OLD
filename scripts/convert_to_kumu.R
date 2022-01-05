@@ -10,7 +10,7 @@ library(googlesheets4)
 #gs4_auth(email = "*@talarify.co.za", path = "~/stakeholder_map/sheets_service_account_key.json") # before making the json a secret
 
 # for GitHub Action (adapted from https://github.com/jdtrat/tokencodr-google-demo)
-source("R/func_auth_google.R")
+source("functions/func_auth_google.R")
 
 # Authenticate Google Service Account (adapted from https://github.com/jdtrat/tokencodr-google-demo)
 auth_google(email = "*@talarify.co.za",
