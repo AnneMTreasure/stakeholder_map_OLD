@@ -3,7 +3,7 @@ title: "Using GitHub Actions to automate data visualisations"
 subtitle: ""
 author: "Anne Treasure"
 institute: "Talarify"
-date: "2021/12/21 (updated: `r Sys.Date()`)"
+date: "21 Dec 2021 (updated: `r Sys.Date()`)"
 output:
   xaringan::moon_reader:
     self_contained: true
@@ -19,6 +19,22 @@ class: center, middle
 # title
 
 ### subtitle
+
+---
+
+# Overview
+
+We share the data pipeline process we are using to collect and visualise data collected on Digital Humanities (DH), Computational Social Sciences (CSS), Human Language Technologies (HLT) and Natural Language Processing (NLP) activities and initiatives in South Africa. The aim of collecting this data is to enable the landscape of these initiatives in South Africa to be known.
+
+---
+
+# Aim
+
+To capture data with a Google Form and then create data visualisations in Kumu (and Shiny, which is still in development) through a non-interactive automated process.
+
+```{r echo=FALSE, out.height="100%", out.width= "100%"}
+knitr::include_graphics("figures/overview.png")
+```
 
 ---
 

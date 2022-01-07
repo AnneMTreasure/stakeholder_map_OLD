@@ -1,4 +1,4 @@
-### WORKING ORIGINAL ###
+###### TEST FILE ###### 
 
 # Stakeholder map project - Shiny App
 #
@@ -51,26 +51,10 @@ person_data <- locations %>%
     merge(person, by = 'Organisation')
 tool_data <- locations %>%
     merge(tool, by = 'Organisation')
-#training_data <- locations %>%
-#    merge(training, by = 'Organisation')
-
-#dataset <- read_sheet(ss = ss, sheet = "dataset")
-publication <- read_sheet(ss = ss, sheet = "publication") %>%
-  select("subject_area", "methods", "publication_type", "language_primary", "language_other", "title", "authors", "publisher", "status", "volume_no", "start_page_no", "end_page_no", "publication_year", "conference_name", "conference_start_date", "keywords", "abstract", "identifier", "licence", "paywall", "review", "URL")
-#  names(publication) <- c("subject_area", "methods", "pulication_type", "language_primary", "language_other", "title", "authors", "publisher", "status", "volume_no", "start_page_no", "end_page_no", "publication_year", "conference_name", "conference_start_date", "keywords", "abstract", "identifier", "licence", "paywall", "review", "URL"
-#  )
-  
-#archives <- read_sheet(ss = ss, sheet = "archives")
-#learning_material <- read_sheet(ss = ss, sheet = "learning_material")
-#unclassified <- read_sheet(ss = ss, sheet = "unclassified")
-
-# ----- load functions -----
-#source('functions/importStakeholderData.R')
-#source('functions/my_map_activ.R')
 
 # choices for activities map
 choices_record_type <- c('Person', 'Project', 'Tool', 'Training')
-subject_area <- c('African studies',
+choices_subject_area <- c('African studies',
                   'Anthropology',
                   'Archaeology', 
                   'Architecture: History, Theory & Practice', 
@@ -107,70 +91,69 @@ ui <- (fluidPage(
     titlePanel(title = "Digital Humanities and Computational Social Sciences landscape in South Africa"),
     p("The South African Centre for Digital Language Resources (SADiLaR) is a national centre supported by the Department of Science and Innovation (DSI) as part of the South African Research Infrastructure Roadmap (SARIR). SADiLaR has an enabling function, with a focus on all official languages of South Africa, supporting research and development in the domains of language technologies and language-related studies in the humanities and social sciences. Furthermore the centre has a mandate to develop digital humanities capacity in South Africa."),
     tabsetPanel(
-# ----- input for first panel (activities map) -----
-      tabPanel('Activities Map',
-        sidebarLayout(
-          sidebarPanel(
-            uiOutput("Type"),
-      # add filter for data
-            selectInput(
-              inputId = 'subject',
-              label = 'Choose filter for data by subject area',
-              choices = subject_area
-            
-            ) # end selectInput
-            
-          ), # end sidebarPanel
-          mainPanel(
-#            h4('DH and CSS landscape in South Africa'),
-            p("This map shows data on Digital Humanities (DH), Computational Social Sciences (CSS),  Human Language Technologies (HLT) and Natural Language Processing (NLP) activities and initiatives in South Africa."),
-            leafletOutput("my_map_activities", height = "500"),
-                     h4('Add some text here'),
-                     p("if we want text here"),
-                     p("if we want text here"), 
-          ) # end mainPanel
-        ) # end sidebarLayout
-      ), # end tabPanel 1
-      
-# ----- input for second panel () -----
-      tabPanel('heading for panel 2'
+        # ----- input for first panel (activities map) -----
+        tabPanel('Activities Map',
+                 sidebarLayout(
+                     sidebarPanel(
+                         uiOutput("Type"),
+                         # add filter for data
+                         conditionalPanel(condition = "input.subject",
+                             selectInput(
+                                 inputId = 'subject',
+                                 label = 'Choose filter for data by subject area',
+                                 choices = choices_subject_area
+                             ) # end selectInput 
+                         ) # end conditionalPanel
+                     ), # end sidebarPanel
+                     mainPanel(
+                         p("This map shows data on Digital Humanities (DH), Computational Social Sciences (CSS),  Human Language Technologies (HLT) and Natural Language Processing (NLP) activities and initiatives in South Africa."),
+                         leafletOutput("my_map_activities", height = "500"),
+                     ) # end mainPanel
+                 ) # end sidebarLayout
+        ), # end tabPanel 1
         
-      ), # end tabPanel 2
-
-# ----- input for third panel -----  
-      tabPanel('Datasets'#,
-              # DT::dataTableOutput("mytable") # TO CREATE DATASETS TABLE
-      ), # end tabPanel 3
-
-# ----- input (table) for fourth panel -----
-      tabPanel('Publications',
-               DT::dataTableOutput("mytable")
-      ), # end tabPanel 4
-      
     ) # end tabsetPanel
 ) # end fluidpage
 )
 
 # Define server logic required to draw a the leaflet map, other plots, and show tables
 server <- function(input, output){
-
-# ----- output for first panel (activities map) -----
-      output$Type <- renderUI({
+    
+    # ----- output for first panel (activities map) -----
+    output$Type <- renderUI({
         selectInput(inputId = "Type", label = "Choose which record type to view",
                     choices = choices_record_type)
     })
-     mapData <- reactive({
-      if (input$Type == "Project") {
-             data <- project_data
-         } else if (input$Type == "Person") {
-             data <- person_data    
-         } else {
-             data <- 0
-         }
-         return(data)
+    mapData <- reactive({
+        if (input$Type == "Project") {
+            #data <- project_data
+            #data <- project_data %>% filter(subject_area == input$subject)
+            
+            #project_data$subject_area <- gsub(", ", ",", project_data$subject_area)
+            test <- unlist(strsplit(project_data$subject_area, ";"))
+            
+            data <- project_data %>% filter(input$subject %in% test)            
+            
+            
+        } else if (input$Type == "Person") {
+            #data <- person_data
+            #data <- person_data %>% filter(subject_area == input$subject)
+            
+            person_data$subject_area <- gsub(", ", ",", person_data$subject_area)
+            test <- unlist(strsplit(person_data$subject_area, ","))
+
+            data <- person_data %>% filter(input$subject %in% test)
+                        
+        } else {
+            data <- 0
+        }
+        #data <- filter(data, subject_area == input$subject)
+        return(data)
     })
     
-     
+#    mapData2 <- reactive({
+#    })
+    
     output$my_map_activities <- renderLeaflet({
         leaflet(data = mapData()) %>%
             addTiles() %>% 
@@ -180,13 +163,8 @@ server <- function(input, output){
                              popup = ~tableHTML(data.frame(Label, Organisation, URL),
                                                 rownames = FALSE,
                                                 border = 2)
-                          # popup = ~htmlTable(data.frame(Label, Organisation, URL))
+                             # popup = ~htmlTable(data.frame(Label, Organisation, URL))
             )
-    })
-
-# ----- output (table) for fourth panel (publications table) -----
-    output$mytable = DT::renderDataTable({
-      publication
     })
 } # end server
 

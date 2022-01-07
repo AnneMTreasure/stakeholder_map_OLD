@@ -32,7 +32,7 @@ form_data <-
 project <- form_data %>%
   filter(`1.5_Record type` == "Project") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "2")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(project) <-
   c(
@@ -76,7 +76,7 @@ names(project) <-
 person <- form_data %>%
   filter(`1.5_Record type` == "Person") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "3")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE) %>%
+  unite("Tags", 5:6, sep = ", ", remove = FALSE) %>%
   unite("Label", 9:11, sep = " ", remove = FALSE)
 
 names(person) <-
@@ -114,7 +114,7 @@ names(person) <-
 dataset <- form_data %>%
   filter(`1.5_Record type` == "Dataset") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "4")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(dataset) <-
   c(
@@ -154,7 +154,7 @@ names(dataset) <-
 tool <- form_data %>%
   filter(`1.5_Record type` == "Tool") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "5")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(tool) <-
   c(
@@ -201,7 +201,7 @@ names(tool) <-
 publication <- form_data %>%
   filter(`1.5_Record type` == "Publication") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "6")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(publication) <-
   c(
@@ -240,7 +240,7 @@ names(publication) <-
 training <- form_data %>%
   filter(`1.5_Record type` == "Training") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "7", "8", "9")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(training) <-
   c(
@@ -285,7 +285,7 @@ names(training) <-
 archives <- form_data %>%
   filter(`1.5_Record type` == "Archives") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "10")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(archives) <-
   c(
@@ -319,7 +319,7 @@ names(archives) <-
 learning_material <- form_data %>%
   filter(`1.5_Record type` == "Learning material") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "11")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(learning_material) <-
   c(
@@ -361,7 +361,7 @@ names(learning_material) <-
 unclassified <- form_data %>%
   filter(`1.5_Record type` == "Unclassified") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "12")))) %>%
-  unite("Tags", 5:6, sep = " | ", remove = FALSE)
+  unite("Tags", 5:6, sep = ", ", remove = FALSE)
 
 names(unclassified) <-
   c(
@@ -410,7 +410,7 @@ kumu_training_online <- training %>%
 names(kumu_training_inperson) <- c("Label", "Type", "Description", "Tags", "Organisation", "URL", "Email", "Funders")
 
 ##### combine ##### 
-kumu <- rbind(kumu_person, kumu_project,kumu_training_inperson, kumu_training_online)
+kumu <- rbind(kumu_person, kumu_project, kumu_training_inperson, kumu_training_online)
 # replace commas with |
 kumu$Tags <- gsub("[[:punct:]]", " | ", kumu$Tags)
 
