@@ -57,7 +57,7 @@ tool_data <- locations %>%
 #dataset <- read_sheet(ss = ss, sheet = "dataset")
 publication <- read_sheet(ss = ss, sheet = "publication") %>%
   select("subject_area", "methods", "publication_type", "language_primary", "language_other", "title", "authors", "publisher", "status", "volume_no", "start_page_no", "end_page_no", "publication_year", "conference_name", "conference_start_date", "keywords", "abstract", "identifier", "licence", "paywall", "review", "URL")
-#  names(publication) <- c("subject_area", "methods", "pulication_type", "language_primary", "language_other", "title", "authors", "publisher", "status", "volume_no", "start_page_no", "end_page_no", "publication_year", "conference_name", "conference_start_date", "keywords", "abstract", "identifier", "licence", "paywall", "review", "URL"
+#  names(publication) <- c("subject_area", "methods", "publication_type", "language_primary", "language_other", "title", "authors", "publisher", "status", "volume_no", "start_page_no", "end_page_no", "publication_year", "conference_name", "conference_start_date", "keywords", "abstract", "identifier", "licence", "paywall", "review", "URL"
 #  )
   
 #archives <- read_sheet(ss = ss, sheet = "archives")

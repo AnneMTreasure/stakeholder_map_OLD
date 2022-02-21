@@ -1,0 +1,5 @@
+In this Shiny script, the drop down menu for person/project is working
+by subject area
+however
+while the pop up on the map shows the people/project for selected subject areas
+the pop up actually lists ALL the people / projects for any of the subject areas that are relevant to any of those people/projects

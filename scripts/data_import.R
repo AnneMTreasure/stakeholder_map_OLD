@@ -21,8 +21,9 @@ auth_google(email = "*@talarify.co.za",
 ###### ---------- READ DATA FROM GOOGLE SHEET ---------- ######
 form_data <-
   read_sheet(
-    "https://docs.google.com/spreadsheets/d/1_LF0MQM1j240Z-S1eemmt6pcpWoGpeidFFIm73bqhhQ/edit?resourcekey#gid=957668315"
-  )
+#    "https://docs.google.com/spreadsheets/d/1_LF0MQM1j240Z-S1eemmt6pcpWoGpeidFFIm73bqhhQ#/edit?resourcekey#gid=957668315"
+    "https://docs.google.com/spreadsheets/d/1QypMe5AMMRqC99xErDrLNg_MNFh8GgJgvgk1GgTgqvc/edit?resourcekey#gid=1544501697"
+      )
 
 ###### ---------- INTRO questions ---------- ######
 #intro <- form_data %>%
@@ -33,6 +34,7 @@ project <- form_data %>%
   filter(`1.5_Record type` == "Project") %>%
   select(c("Timestamp", "Email Address", starts_with(c("1.", "2")))) %>%
   unite("Tags", 5:6, sep = ", ", remove = FALSE)
+project$subject_area <- gsub(";, ", ";", project$subject_area)
 
 names(project) <-
   c(
