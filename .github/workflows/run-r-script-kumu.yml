@@ -2,6 +2,7 @@ name: run_r_script_kumu_test
 
 # Controls when the workflow will run
 on:
+  workflow_dispatch:
   schedule:
     - cron: '15 10 * * *'
 
